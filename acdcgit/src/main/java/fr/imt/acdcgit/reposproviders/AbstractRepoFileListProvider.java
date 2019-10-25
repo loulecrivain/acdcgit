@@ -8,7 +8,7 @@ import java.util.ArrayList;
  * a list of repositories in the form of a list of File objects
  * Child classes must also implement the RepoFileListProvider interface 
  * */
-public abstract class AbstractRepoFileListProvider implements RepoFileListProvider {
+public abstract class AbstractRepoFileListProvider implements RepoListProvider<File> {
 	protected String path;
 
 	public abstract ArrayList<File> getRepos();
