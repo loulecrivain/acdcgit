@@ -1,11 +1,11 @@
 package fr.imt.acdcgit.features;
 
 import org.eclipse.jgit.api.Git;
-
+import org.eclipse.jgit.transport.CredentialsProvider;
 
 class BaseFeatureFactory implements FeatureFactoryInterface<BaseFeature> {
-	public BaseFeature getInstance(Git repoUsedByImplClass) {
-		return new BaseFeature(repoUsedByImplClass);
+	public BaseFeature getInstance(Git repoUsedByImplClass, CredentialsProvider cp) {
+		return new BaseFeature(repoUsedByImplClass, cp);
 	}
 }
 
@@ -19,8 +19,10 @@ public class BaseFeature {
 	public static final FeatureFactoryInterface<BaseFeature> FACTORY = new BaseFeatureFactory();
 
 	protected Git repo;
+	protected CredentialsProvider credsProvider;
 
-	public BaseFeature(Git repo) {
+	public BaseFeature(Git repo, CredentialsProvider cp) {
 		this.repo = repo;
+		this.credsProvider = cp;
 	}
 }

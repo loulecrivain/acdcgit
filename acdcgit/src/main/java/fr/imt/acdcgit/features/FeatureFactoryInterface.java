@@ -1,6 +1,7 @@
 package fr.imt.acdcgit.features;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.transport.CredentialsProvider;
 
 /**
  * Defines a feature factory interface which can be used to get instantiated
@@ -10,5 +11,5 @@ import org.eclipse.jgit.api.Git;
  * @param <T>
  */
 public interface FeatureFactoryInterface<T> {
-	public T getInstance(Git repoUsedByImplClass);
+	public T getInstance(Git repoUsedByImplClass, CredentialsProvider credsProviderUsedByImplClass);
 }

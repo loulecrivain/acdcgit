@@ -2,17 +2,22 @@ package fr.imt.acdcgit.features;
 
 import java.io.IOException;
 
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+
 import fr.imt.acdcgit.reposproviders.RepoFileListFromPath;
 import junit.framework.TestCase;
 
 public class FeatureListFactoryTest extends TestCase {
 	private RepoFileListFromPath rFinder;
 	private FeatureListFactory<BaseFeature> featureListFactory;
-
+	private CredentialsProvider credsProvider;
+	
 	protected void setUp() throws Exception {
 		super.setUp();
 		rFinder = new RepoFileListFromPath("..");
-		featureListFactory = new FeatureListFactory<BaseFeature>(BaseFeature.FACTORY, rFinder.getRepos());
+		credsProvider = new UsernamePasswordCredentialsProvider("foo","bar");
+		featureListFactory = new FeatureListFactory<BaseFeature>(BaseFeature.FACTORY, rFinder.getRepos(),credsProvider);
 	}
 
 	public void testGet() {

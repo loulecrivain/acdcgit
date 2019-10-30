@@ -1,6 +1,7 @@
 package fr.imt.acdcgit.features;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.transport.CredentialsProvider;
 
 import fr.imt.acdcgit.reposproviders.*;
 import java.util.Iterator;
@@ -17,8 +18,9 @@ public class FeatureListFactory<A extends BaseFeature> {
 	private FeatureFactoryInterface<A> featureProvider;
 	private ArrayList<File> repos;
 	private ArrayList<A> initializedFeatures;
-
-	public FeatureListFactory(FeatureFactoryInterface<A> ffi, ArrayList<File> repos) {
+	private CredentialsProvider credsProvider;
+	
+	public FeatureListFactory(FeatureFactoryInterface<A> ffi, ArrayList<File> repos, CredentialsProvider cp) {
 		this.featureProvider = ffi;
 		this.repos = repos;
 	}
@@ -31,7 +33,7 @@ public class FeatureListFactory<A extends BaseFeature> {
 			while (i.hasNext()) {
 				File tmpRepoFile = i.next();
 				Git tmpRepoGit = RepoFromFileFactory.repoFrom(tmpRepoFile);
-				this.initializedFeatures.add(this.featureProvider.getInstance(tmpRepoGit));
+				this.initializedFeatures.add(this.featureProvider.getInstance(tmpRepoGit,credsProvider));
 			}
 		}
 		return this.initializedFeatures;

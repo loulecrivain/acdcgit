@@ -1,12 +1,14 @@
 package fr.imt.acdcgit.features;
 
 import org.eclipse.jgit.api.Git;
+import org.eclipse.jgit.transport.CredentialsProvider;
+
 import java.io.File;
 import java.io.IOException;
 
 class RepoListFeatureFactory implements FeatureFactoryInterface<RepoListFeature> {
-	public RepoListFeature getInstance(Git repoUsedByImplClass) {
-		return new RepoListFeature(repoUsedByImplClass);
+	public RepoListFeature getInstance(Git repoUsedByImplClass, CredentialsProvider cp) {
+		return new RepoListFeature(repoUsedByImplClass,cp);
 	}
 }
 
@@ -20,8 +22,8 @@ public class RepoListFeature extends BaseFeature {
 	public static final FeatureFactoryInterface<RepoListFeature> FACTORY = 
 			new RepoListFeatureFactory();
 
-	public RepoListFeature(Git repo) {
-		super(repo);
+	public RepoListFeature(Git repo, CredentialsProvider cp) {
+		super(repo,cp);
 	}
 	
 	public String getRelativeDir() {

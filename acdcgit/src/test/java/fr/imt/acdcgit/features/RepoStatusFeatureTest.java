@@ -1,10 +1,13 @@
 package fr.imt.acdcgit.features;
 
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.UsernamePasswordCredentialsProvider;
+
 import fr.imt.acdcgit.reposproviders.RepoFileListFromPath;
 import junit.framework.TestCase;
 
 public class RepoStatusFeatureTest extends TestCase {
-
+	private CredentialsProvider credsProvider;
 	private RepoFileListFromPath rFinder;
 	private FeatureListFactory<RepoStatusFeature> featureListFactory;
 	private RepoStatusFeature firstRepo;
@@ -12,7 +15,8 @@ public class RepoStatusFeatureTest extends TestCase {
 	protected void setUp() throws Exception {
 		super.setUp();
 		rFinder = new RepoFileListFromPath("..");
-		featureListFactory = new FeatureListFactory<RepoStatusFeature>(RepoStatusFeature.FACTORY, rFinder.getRepos());
+		credsProvider = new UsernamePasswordCredentialsProvider("foo","bar");
+		featureListFactory = new FeatureListFactory<RepoStatusFeature>(RepoStatusFeature.FACTORY, rFinder.getRepos(),credsProvider);
 		firstRepo = featureListFactory.get().get(0);
 	}
 

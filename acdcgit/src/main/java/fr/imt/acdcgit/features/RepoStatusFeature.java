@@ -4,6 +4,9 @@ package fr.imt.acdcgit.features;
 import org.eclipse.jgit.api.errors.GitAPIException;
 import org.eclipse.jgit.lib.Ref;
 import org.eclipse.jgit.lib.Repository;
+import org.eclipse.jgit.transport.CredentialsProvider;
+import org.eclipse.jgit.transport.FetchResult;
+
 import java.util.ArrayList;
 import java.util.EnumMap;
 import org.eclipse.jgit.api.Git;
@@ -13,8 +16,8 @@ import org.eclipse.jgit.lib.Ref;
 
 
 class RepoStatusFeatureFactory implements FeatureFactoryInterface<RepoStatusFeature> {
-	public RepoStatusFeature getInstance(Git repoUsedByImplClass) {
-		return new RepoStatusFeature(repoUsedByImplClass);
+	public RepoStatusFeature getInstance(Git repoUsedByImplClass, CredentialsProvider cp) {
+		return new RepoStatusFeature(repoUsedByImplClass,cp);
 	}
 }
 
@@ -39,8 +42,8 @@ public class RepoStatusFeature extends RepoListFeature {
 			new RepoStatusFeatureFactory();
 	
 
-	public RepoStatusFeature(Git repo) {
-		super(repo);
+	public RepoStatusFeature(Git repo, CredentialsProvider cp) {
+		super(repo,cp);
 		 stateToString = new EnumMap<RepoState,String>(RepoState.class);
 		 stateToString.put(RepoState.SYNCED, "synchronized");
 		 stateToString.put(RepoState.BEHIND, "behind");
@@ -54,6 +57,14 @@ public class RepoStatusFeature extends RepoListFeature {
 
 	public String getStateStr() throws GitAPIException, Exception {
 		return this.stateToString.get(getState());
+	}
+	
+	protected void fetchForMainBranch() { // uses default remote
+		FetchResult result = this.repo.fetch()
+							.setCredentialsProvider(this.credsProvider)
+							.setCheckFetchedObjects(true)
+							.call();
+		
 	}
 	
 	// TODO
