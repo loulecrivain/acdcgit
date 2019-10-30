@@ -1,7 +1,6 @@
 package fr.imt.acdcgit.features;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import fr.imt.acdcgit.reposproviders.RepoFileListFromPath;
 import junit.framework.TestCase;
