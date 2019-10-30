@@ -12,7 +12,7 @@ import java.io.IOException;
 public class RepoFromFileFactory {
 	public static Git repoFrom(File path) throws IOException {
 		Repository repo = new FileRepositoryBuilder()
-				.setGitDir(path)
+				.setWorkTree(path)
 				.readEnvironment()
 				.findGitDir()
 				.build();
