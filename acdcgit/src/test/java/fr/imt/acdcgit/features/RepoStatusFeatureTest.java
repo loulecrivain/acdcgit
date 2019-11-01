@@ -11,12 +11,13 @@ public class RepoStatusFeatureTest extends TestCase {
 	private RepoFileListFromPath rFinder;
 	private FeatureListFactory<RepoStatusFeature> featureListFactory;
 	private RepoStatusFeature firstRepo;
-	
+
 	protected void setUp() throws Exception {
 		super.setUp();
 		rFinder = new RepoFileListFromPath("..");
-		credsProvider = new UsernamePasswordCredentialsProvider("foo","bar");
-		featureListFactory = new FeatureListFactory<RepoStatusFeature>(RepoStatusFeature.FACTORY, rFinder.getRepos(),credsProvider);
+		credsProvider = new UsernamePasswordCredentialsProvider("foo", "bar");
+		featureListFactory = new FeatureListFactory<RepoStatusFeature>(RepoStatusFeature.FACTORY, rFinder.getRepos(),
+				credsProvider);
 		firstRepo = featureListFactory.get().get(0);
 	}
 
@@ -25,12 +26,13 @@ public class RepoStatusFeatureTest extends TestCase {
 		// or when state is clean
 		// so typically we should have a SYNCED state here
 		try {
-			assertTrue(firstRepo.getState().equals(RepoStatusFeature.RepoState.SYNCED));
+			// you must have connectivity in order to do the tests !
+			assertTrue(firstRepo.getState(true).equals(RepoStatusFeature.RepoState.SYNCED));
 		} catch (Exception e) {
-			fail("Exception raised while tetsing");
+			fail("Exception " + e.getClass() + " raised while testing");
 		}
 	}
-	
+
 	public void testGetMainBranchStr() {
 		try {
 			assertTrue(firstRepo.getMainBranchStr().contains("master"));
