@@ -23,6 +23,7 @@ public class FeatureListFactory<A extends BaseFeature> {
 	public FeatureListFactory(FeatureFactoryInterface<A> ffi, ArrayList<File> repos, CredentialsProvider cp) {
 		this.featureProvider = ffi;
 		this.repos = repos;
+		this.credsProvider = cp;
 	}
 
 	public ArrayList<A> get() throws IOException {

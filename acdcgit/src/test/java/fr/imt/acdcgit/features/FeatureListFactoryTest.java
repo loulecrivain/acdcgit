@@ -26,6 +26,9 @@ public class FeatureListFactoryTest extends TestCase {
 			assertEquals(featureListFactory.get(), featureListFactory.get());
 			// init feature with one repo ?
 			assertEquals(featureListFactory.get().size(), 1); // normally there is only one git repo in ".." : ours
+			// test if repo correctly initialized
+			assertNotNull(featureListFactory.get().get(0).credsProvider);
+			assertNotNull(featureListFactory.get().get(0).repo);
 		} catch (IOException ioe) {
 			fail("Error while accessing test repo !");
 		}
