@@ -16,6 +16,8 @@ class RepoStatusFeatureFactory implements FeatureFactoryInterface<RepoStatusFeat
 	}
 }
 
+// TODO if you use ls-remote see BranchTrackingStatus for code
+// TODO use ls-remote if possible, may make things more complicated ?
 public class RepoStatusFeature extends RepoListFeature {
 	// can be used publicly
 	public static enum RepoState {
@@ -49,11 +51,46 @@ public class RepoStatusFeature extends RepoListFeature {
 		return BranchTrackingStatus.of(this.repo.getRepository(), this.getMainBranchStr());
 	}
 
+	protected boolean isAhead(RepoState state) {
+		if(state.equals(RepoState.AHEAD) || state.equals(RepoState.BEHIND_AHEAD)) {
+			return true;
+		}
+		return false;
+	}
+	
+	public boolean isAhead() throws Exception {
+		return isAhead(this.getState(true));
+	}
+
+	protected boolean isBehind(RepoState state) {
+		if(state.equals(RepoState.BEHIND) ||
+				state.equals(RepoState.BEHIND_AHEAD)){
+			return true;
+		}
+		return false;
+	}
+
+	public boolean isBehind() throws Exception {
+		return isBehind(this.getState(true));
+	}
+
+	protected boolean isSynced(RepoState state) {
+		if(state.equals(RepoState.SYNCED)) {
+			return true;
+		}
+		return false;	
+	}
+	
+	public boolean isSynced() throws Exception {
+		return isSynced(this.getState(true));
+	}
+
 	public RepoState getState(boolean fetchBefore) throws GitAPIException, Exception {
-		BranchTrackingStatus mainBranchTrackingStatus = getMainBranchTrackingStatus();
+		// fetching before counting
 		if (fetchBefore) {
 			this.fetchMessages = this.fetchForMainBranch();
 		}
+		BranchTrackingStatus mainBranchTrackingStatus = getMainBranchTrackingStatus();
 		if (mainBranchTrackingStatus != null) {
 			/*
 			 * mapping returns to cases: origin main branch points to:
