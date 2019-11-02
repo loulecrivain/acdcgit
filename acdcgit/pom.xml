@@ -27,6 +27,12 @@
       <artifactId>org.eclipse.jgit</artifactId>
       <version>5.5.1.201910021850-r</version>
     </dependency>
+    <!-- https://mvnrepository.com/artifact/org.eclipse.jgit/org.eclipse.jgit.ui -->
+	<dependency>
+    	<groupId>org.eclipse.jgit</groupId>
+    	<artifactId>org.eclipse.jgit.ui</artifactId>
+    	<version>5.5.1.201910021850-r</version>
+	</dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
