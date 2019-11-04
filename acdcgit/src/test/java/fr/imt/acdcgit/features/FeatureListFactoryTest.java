@@ -21,7 +21,6 @@ public class FeatureListFactoryTest extends TestCase {
 	}
 
 	public void testGet() {
-		try {
 			// testing if lazy-loading does the job
 			assertEquals(featureListFactory.get(), featureListFactory.get());
 			// init feature with one repo ?
@@ -29,10 +28,5 @@ public class FeatureListFactoryTest extends TestCase {
 			// test if repo correctly initialized
 			assertNotNull(featureListFactory.get().get(0).credsProvider);
 			assertNotNull(featureListFactory.get().get(0).repo);
-		} catch (IOException ioe) {
-			fail("Error while accessing test repo !");
-		}
-
 	}
-
 }

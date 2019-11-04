@@ -26,7 +26,7 @@ public class FeatureListFactory<A extends BaseFeature> {
 		this.credsProvider = cp;
 	}
 
-	public ArrayList<A> get() throws IOException {
+	public ArrayList<A> get() {
 		// doing lazy-loading
 		if (this.initializedFeatures == null) {
 			Iterator<File> i = repos.iterator();
@@ -34,7 +34,9 @@ public class FeatureListFactory<A extends BaseFeature> {
 			while (i.hasNext()) {
 				File tmpRepoFile = i.next();
 				Git tmpRepoGit = RepoFromFileFactory.repoFrom(tmpRepoFile);
-				this.initializedFeatures.add(this.featureProvider.getInstance(tmpRepoGit,credsProvider));
+				if (tmpRepoGit != null) {
+					this.initializedFeatures.add(this.featureProvider.getInstance(tmpRepoGit,credsProvider));
+				}
 			}
 		}
 		return this.initializedFeatures;
