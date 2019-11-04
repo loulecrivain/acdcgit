@@ -31,7 +31,7 @@ public class RepoFileListFromPath extends AbstractRepoFileListProvider {
 		ArrayList<File> gitdirs = new ArrayList<File>();
 		
 		for(File f: ff.by(ftype_dir).by(fname_dotgit).getFiltered()) {
-			gitdirs.add(f.getParentFile());
+			gitdirs.add(f);
 		}
 		return gitdirs;
 	}

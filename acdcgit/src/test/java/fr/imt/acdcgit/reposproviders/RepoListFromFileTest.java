@@ -19,7 +19,7 @@ public class RepoListFromFileTest extends TestCase {
 			fail("Test git repository not found !");
 		} else {
 			try {
-				assertTrue(rlff.getRepos().get(0).getCanonicalPath().contentEquals(new File("..").getCanonicalPath()));
+				assertTrue(rlff.getRepos().get(0).getCanonicalPath().contentEquals(new File("../.git").getCanonicalPath()));
 			} catch (Exception e) {
 				e.printStackTrace();
 			}

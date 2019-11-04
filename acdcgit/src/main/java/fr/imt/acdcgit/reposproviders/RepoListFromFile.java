@@ -10,6 +10,9 @@ import java.io.IOException;
 /**
  * All-In-One class for reading files containing list
  * of repos. Perform checks, provide list of repos.
+ * File format is one repo by line, with absolute work tree path (does not includes .git)
+ * C:\path\to\repo\in\..\strange\repodir
+ * 
  */
 public class RepoListFromFile extends AbstractRepoFileListProvider {
 	private BufferedReader bufferedReader;
@@ -30,7 +33,7 @@ public class RepoListFromFile extends AbstractRepoFileListProvider {
 		try {
 			while((currentLine = this.bufferedReader.readLine()) != null) {
 				if(isRepo(currentLine)) {
-					File tmp = (new File(currentLine)).getCanonicalFile(); // canonical pathnames are unique
+					File tmp = (new File(currentLine + File.separator + ".git")).getCanonicalFile(); // canonical pathnames are unique
 					if(!foundRepos.contains(tmp)) {
 						foundRepos.add(tmp);
 					}

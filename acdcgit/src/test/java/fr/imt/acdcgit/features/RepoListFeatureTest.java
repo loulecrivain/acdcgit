@@ -23,12 +23,7 @@ public class RepoListFeatureTest extends TestCase {
 	}
 
 	public void testGetRelativeDir() {
-		try {
-			assertEquals(featureListFactory.get().size(),1);
-			// TODO correct this test
-			assertTrue(featureListFactory.get().get(0).getRelativeDir().contains(".git"));
-		} catch(IOException ioe) {
-			fail("unable to access repo !");
-		}
+		assertEquals(featureListFactory.get().size(),1);
+		assertTrue(featureListFactory.get().get(0).getRelativeDir().equals("../.git"));
 	}
 }
