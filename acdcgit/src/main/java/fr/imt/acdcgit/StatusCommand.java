@@ -29,7 +29,7 @@ public class StatusCommand extends SubCommand {
 			for (Repository r: facade.getRepos()) {
 				String status = stateToString.get(facade.getStatus(r));
 				String path = r.getId();
-				System.out.println(path + " has status " + status);
+				System.out.println(path + " [" + status + "]");
 			}
 		} catch (TransportException te) {
 			System.err.println("Can't access remote to fetch status");

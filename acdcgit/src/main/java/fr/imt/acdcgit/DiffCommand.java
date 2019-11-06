@@ -13,7 +13,9 @@ public class DiffCommand extends SubCommand {
 	public void launch(ACDCGitFacade facade) {
 		for(Repository r : facade.getRepos()) {
 			try {
+				System.out.println("*** beginning of diff for repo " + r.getId() + " ***");
 				System.out.println(facade.getDiff(r));
+				System.out.println("*** end of diff for repo " + r.getId() + " ***");
 			} catch (TransportException te) {
 				System.err.println("Can't diff relative to online remote while offline");
 				this.printGenErrMessage(te);
