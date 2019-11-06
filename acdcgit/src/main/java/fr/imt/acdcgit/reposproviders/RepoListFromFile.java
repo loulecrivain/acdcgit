@@ -10,7 +10,7 @@ import java.io.IOException;
 /**
  * All-In-One class for reading files containing list
  * of repos. Perform checks, provide list of repos.
- * File format is one repo by line, with absolute work tree path (does not includes .git)
+ * File format is one repo by line, with absolute work tree path (can include .git dir or not)
  * C:\path\to\repo\in\..\strange\repodir
  * 
  */
@@ -32,10 +32,10 @@ public class RepoListFromFile extends AbstractRepoFileListProvider {
 		}
 		try {
 			while((currentLine = this.bufferedReader.readLine()) != null) {
-				if(isRepo(currentLine)) {
-					File tmp = (new File(currentLine + File.separator + ".git")).getCanonicalFile(); // canonical pathnames are unique
-					if(!foundRepos.contains(tmp)) {
-						foundRepos.add(tmp);
+				File repoFile = getRepoFile(currentLine); 
+				if(repoFile != null) {
+					if(!foundRepos.contains(repoFile)) {
+						foundRepos.add(repoFile);
 					}
 				}
 			}
@@ -44,12 +44,16 @@ public class RepoListFromFile extends AbstractRepoFileListProvider {
 		}
 	}
 	
-	protected boolean isRepo(String path) {
-		File repoFile = new File(path + File.separator + ".git");
+	protected File getRepoFile(String path) throws IOException {
+		// correct config file on-the-fly if wrong
+		if(!(path.endsWith(".git") || path.endsWith(".git" + File.separator))) {
+			path = path + File.separator + ".git";
+		}
+		File repoFile = new File(path);
 		if(repoFile.isDirectory() && repoFile.exists()) {
-			return true;
+			return repoFile.getCanonicalFile(); // canonical pathnames are unique, this helps us to distinguish duplicated entries in files
 		} else {
-			return false;
+			return null;
 		}
 	}
 	

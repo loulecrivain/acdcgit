@@ -1,7 +1,6 @@
 package fr.imt.acdcgit.reposproviders;
 
 import java.io.File;
-
 import fr.imt.acdcgit.reposproviders.RepoFileListFromPath;
 import junit.framework.TestCase;
 
@@ -18,7 +17,7 @@ public class RepoFileListFromPathTest extends TestCase {
 		if(!(rFinder.getRepos().size() >= 1)) {
 			fail("Test git repository not found !");
 		} else {
-			assertTrue(rFinder.getRepos().get(0).equals(new File("..")));
+			assertTrue(rFinder.getRepos().get(0).equals(new File(".." + File.separator + ".git")));
 		}
 	}
 
