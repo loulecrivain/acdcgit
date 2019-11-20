@@ -12,7 +12,7 @@ class RepoListFeatureFactory implements FeatureFactoryInterface<RepoListFeature>
 	}
 }
 
-public class RepoListFeature extends BaseFeature {
+public class RepoListFeature extends WorkingAreaFeature {
 	protected enum DirMode {
 		RELATIVE,
 		CANONICAL,
