@@ -10,7 +10,8 @@ public class RepoListFromFileTest extends TestCase {
 	
 	protected void setUp() throws Exception {
 		super.setUp();
-		this.file = "src/test/java/fr/imt/acdcgit/reposproviders/repos.txt";
+		String fs = File.separator;
+		this.file = "src"+fs+"test"+fs+"java"+fs+"fr"+fs+"imt"+fs+"acdcgit"+fs+"reposproviders"+fs+"repos.txt";
 		this.rlff = new RepoListFromFile(this.file);
 	}
 	
