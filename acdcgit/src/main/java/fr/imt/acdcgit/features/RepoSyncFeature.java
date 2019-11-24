@@ -54,7 +54,7 @@ public class RepoSyncFeature extends RepoDiffFeature {
 		return ok;
 	}
 	
-	protected boolean launchPush(boolean pushWithCreds) throws Exception {
+	public boolean launchPush(boolean pushWithCreds) throws Exception {
 		checkoutMainBranch();
 		Iterable<PushResult> pushResults;
 		if(pushWithCreds) {
@@ -73,7 +73,7 @@ public class RepoSyncFeature extends RepoDiffFeature {
 		return false;
 	}
 	
-	protected boolean launchPull(boolean pullWithCreds) throws Exception {
+	public boolean launchPull(boolean pullWithCreds) throws Exception {
 		// first checkout main branch
 		checkoutMainBranch();
 		// then launch pull with or without creds, if without, try
