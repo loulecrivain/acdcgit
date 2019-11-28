@@ -1,48 +1,37 @@
 package fr.imt.acdcgit;
 
-import java.util.EnumMap;
+import fr.imt.acdcgit.interfaces.ReposControllerInterface;
+import java.util.List;
+import java.util.Map;
 
-import org.eclipse.jgit.api.errors.TransportException;
-
-import fr.imt.acdcgit.facade.ACDCGitFacade;
-import fr.imt.acdcgit.facade.Repository;
-import fr.imt.acdcgit.features.RepoFeatures;
 
 public class StatusCommand extends SubCommand {
 	public final String NAME = "status";
 	public final String USAGE = this.NAME + super.USAGE;
 	
 	
-	protected EnumMap<RepoFeatures.RepoState,String> stateToString;
-
-	public StatusCommand() {
-		 stateToString = new EnumMap<RepoFeatures.RepoState,String>(RepoFeatures.RepoState.class);
-         stateToString.put(RepoFeatures.RepoState.SYNCED, "synchronized");
-         stateToString.put(RepoFeatures.RepoState.BEHIND, "behind");
-         stateToString.put(RepoFeatures.RepoState.AHEAD, "ahead");
-         stateToString.put(RepoFeatures.RepoState.UNKNOWN, "unknown state !");
-	}
-	
 	@Override
-	public void launch(ACDCGitFacade facade) {
+	public void launch(ReposControllerInterface controller) {
 		try {
-			for (Repository r: facade.getRepos()) {
-				String status = stateToString.get(facade.getStatus(r));
-				String path = r.getId();
-				System.out.println(path + " [" + status + "]");
+			List<String> repos = controller.getRepos();
+			Map<String,String> status;
+			for(String r : repos) {
+				System.out.println("*** file tracking status in " + r + " ***");
+				status = controller.status(r);
+				for(String filePath : status.keySet()) {
+					System.out.println("[" + status.get(filePath) + "] " + filePath);
+				}
+				System.out.println("*** end of file tracking status in " + r + " ***\n");
 			}
-		} catch (TransportException te) {
-			System.err.println("Can't access remote to fetch status");
-			this.printGenErrMessage(te);
 		} catch (Exception e) {
 			this.printGenErrMessage(e);
 		}
 	}
-
+	@Override
 	public String getName() {
 		return this.NAME;
 	}
-
+	@Override
 	public String getUsage() {
 		return this.USAGE;
 	}

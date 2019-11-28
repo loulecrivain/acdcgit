@@ -1,16 +1,15 @@
 package fr.imt.acdcgit;
 
-import fr.imt.acdcgit.facade.ACDCGitFacade;
-import fr.imt.acdcgit.facade.Repository;
+import fr.imt.acdcgit.interfaces.*;
 
 public class ListCommand extends SubCommand {
 	public final String NAME = "list";
 	public final String USAGE =  this.NAME + super.USAGE;
 	
 	@Override
-	public void launch(ACDCGitFacade facade) {
-		for (Repository r : facade.getRepos()) {
-			System.out.println(r.getId());
+	public void launch(ReposControllerInterface controller) {
+		for (String r : controller.getRepos()) {
+			System.out.println(r);
 		}
 	}
 

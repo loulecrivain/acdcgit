@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.io.File;
-import org.eclipse.jgit.awtui.AwtCredentialsProvider;
+import java.util.Arrays;
 
-import fr.imt.acdcgit.facade.*;
+import fr.imt.acdcgit.interfaces.*;
 
 public class App {
 	public static boolean fileExists(String path) {
@@ -35,9 +35,18 @@ public class App {
 		ListCommand listCommand = new ListCommand();
 		commands.add(listCommand);
 		cmdNameToCommand.put(listCommand.getName(), listCommand);
+		AddCommand addCommand = new AddCommand();
+		commands.add(addCommand);
+		cmdNameToCommand.put(addCommand.getName(), addCommand);
+		CommitCommand commitCommand = new CommitCommand();
+		commands.add(commitCommand);
+		cmdNameToCommand.put(commitCommand.getName(), commitCommand);
 		DiffCommand diffCommand = new DiffCommand();
 		commands.add(diffCommand);
 		cmdNameToCommand.put(diffCommand.getName(), diffCommand);
+		StateCommand stateCommand = new StateCommand();
+		commands.add(stateCommand);
+		cmdNameToCommand.put(stateCommand.getName(), stateCommand);
 		StatusCommand statusCommand = new StatusCommand();
 		commands.add(statusCommand);
 		cmdNameToCommand.put(statusCommand.getName(), statusCommand);
@@ -64,8 +73,16 @@ public class App {
 				printUsageAndExit(commands);
 			}
 			// everything ok, we can go now
-			ACDCGitFacade facade = new ACDCGitFacade(fileName, isIndex(fileName), new ConsoleCredentialsProvider());
-			command.launch(facade);
+			ReposControllerInterface controller = new ReposControllerAdapter(new ConsoleCredentialsProvider());
+			if(isIndex(fileName)) {
+				controller.addReposFromFile(fileName);
+			} else {
+				controller.addReposFromDirectory(fileName);
+			}
+			if (args.length > 2 ) { // if they are other args, take them
+				command.setArgs(Arrays.copyOfRange(args, 2, args.length));
+			}
+			command.launch(controller);
 			// let main end
 		}
 	}
