@@ -28,7 +28,7 @@ public class RepositoryAdapter implements RepositoryInterface {
 	protected RepoFeatures rebuildBOWithOtherCPhackey(RepoFeatures rf1, CredentialsProvider credsProvider) {
 		// creds quick hack, not my fault
 		// the idea there is that you rebuild another BO with new credsprovider ...
-		return getBOFromPath(rf1.getAbsoluteDir(), credsProvider);
+		return getBOFromPath(rf1.getCanonicalDir(), credsProvider);
 	}
 	
 	/* waring ! paths must be absolute ! 
@@ -87,7 +87,7 @@ public class RepositoryAdapter implements RepositoryInterface {
 				// need to use authentication
 				authedMode = true;
 			} else {
-				// rebuild self without any credsProvider
+				// rebuild self with empty credsprovider
 				rf = this.rebuildBOWithOtherCPhackey(rf, null);
 				authedMode = false;
 			}
