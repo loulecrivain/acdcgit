@@ -125,7 +125,7 @@ public class RepositoryAdapter implements RepositoryInterface {
 		RepoFeatures rf = this.getBOFromPath(pathToRepository);
 		Map<String,String> m = new HashMap<String,String>(); // empty for default ret
 		if(rf != null) {
-
+			m.putAll(rf.getWAStatus());
 		}
 		return m;
 	}
