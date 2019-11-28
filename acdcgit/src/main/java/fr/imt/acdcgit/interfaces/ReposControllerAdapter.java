@@ -13,6 +13,7 @@ import org.eclipse.jgit.transport.CredentialsProvider;
 import fr.imt.acdcgit.features.FeatureListFactory;
 import fr.imt.acdcgit.features.RepoFeatures;
 import fr.imt.acdcgit.reposproviders.RepoFileListFromPath;
+import fr.imt.acdcgit.reposproviders.RepoFromFileFactory;
 import fr.imt.acdcgit.reposproviders.RepoListFromFile;
 import fr.imt.acdcgit.reposproviders.RepoListProvider;
 
@@ -51,9 +52,12 @@ public class ReposControllerAdapter extends RepositoriesAdapter implements Repos
 	@Override
 	protected RepoFeatures getBOFromPath(String path, CredentialsProvider credsProvider) {
 		// changing "cache" operation
-		return this.path2BO.get(path); // may be null, ok as it's handled by other methods
-		// I don't change the credsProvider here but this has little impact	}
-		// yes this is hacky
+		RepoFeatures rf = this.path2BO.get(path); // may be null, ok as it's handled by other methods
+		if(rf != null) { // changing credsProvider
+			// yes I have to build another BO in order to do that
+			rf = RepoFeatures.FACTORY.getInstance(RepoFromFileFactory.repoFrom(new File(path)), credsProvider);
+		}
+		return rf;
 	}	
 	/* other interface methods are implemented by
 	 * heritage, only the "cache" behaviour differs
